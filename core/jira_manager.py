@@ -34,7 +34,6 @@ class JiraManager:
 
         assignee_id = JIRA_USERS.get(assignee_username or "", None)
 
-
         if assignee_username and not assignee_id:
             log(f"[WARN] Usuário desconhecido: {assignee_username}. Task não será criada.")
             return None
@@ -46,8 +45,8 @@ class JiraManager:
                 "issuetype": {"name": "Task"},
                 "labels": ["BACKUP"],
                 "duedate": DATA_HOJE,
-                "customfield_10020": 114,            
-                "customfield_10037": DATA_HOJE 
+                "customfield_10020": 114,
+                "customfield_10037": DATA_HOJE
             }
         }
         if assignee_id:
@@ -65,35 +64,60 @@ class JiraManager:
             return key
         log(f"[ERROR] Erro ao criar task no Jira: {r.status_code} - {r.text}")
         return None
-    
-    
+
+    # ---------------------------------------------
+    # Função auxiliar para extrair texto de ADF
+    # ---------------------------------------------
+    def _extrair_texto_adf(self, nodo):
+        textos = []
+
+        def extrair(n):
+            if isinstance(n, dict):
+                if n.get("type") == "text" and "text" in n:
+                    textos.append(n["text"])
+                for filho in n.get("content", []):
+                    extrair(filho)
+            elif isinstance(n, list):
+                for item in n:
+                    extrair(item)
+
+        extrair(nodo)
+        return " ".join(textos).strip() if textos else None
+
     def descricao_task(self, summary: str) -> str | None:
-        """Busca a descrição da issue no Jira a partir do summary (string simples ou ADF)."""
+        """Busca descrição + comentários da issue no Jira a partir do summary (string simples ou ADF)."""
         jql = f'project = "{JIRA_PROJECT_KEY}" AND summary ~ "\\"{summary}\\""'
         issues = self._search_issues(jql)
-        for issue in issues:
-            if issue.get("fields", {}).get("summary", "") == summary:
-                desc = issue.get("fields", {}).get("description", None)
+        if not issues:
+            log(f"[WARN] Nenhuma issue encontrada para summary: {summary}")
+            return None
 
-                if isinstance(desc, str):
-                    return desc
+        issue = issues[0]
+        fields = issue.get("fields", {})
 
-                if isinstance(desc, dict):
-                    textos = []
+        textos = []
 
-                    def extrair_texto(nodo):
-                        if not isinstance(nodo, dict):
-                            return
-                        if nodo.get("type") == "text" and "text" in nodo:
-                            textos.append(nodo["text"])
-                        for filho in nodo.get("content", []):
-                            extrair_texto(filho)
+        # 1. Descrição
+        desc = fields.get("description")
+        if desc:
+            if isinstance(desc, str):
+                textos.append(desc)
+            elif isinstance(desc, dict):
+                texto = self._extrair_texto_adf(desc)
+                if texto:
+                    textos.append(texto)
 
-                    extrair_texto(desc)
-                    return " ".join(textos).strip() if textos else None
+        # 2. Comentários
+        comentarios = fields.get("comment", {}).get("comments", [])
+        for c in comentarios:
+            body = c.get("body")
+            if body:
+                texto = self._extrair_texto_adf(body)
+                if texto:
+                    textos.append(f"- {texto}")
 
-        return None
-    
+        return "\n\n".join(textos) if textos else None
+
     def debug_issue_fields(self, issue_key: str):
         """
         Busca todos os campos crus de uma issue do Jira (para debug).
