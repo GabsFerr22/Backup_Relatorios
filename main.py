@@ -6,7 +6,7 @@ from core.relatorio_PDF import ReportManager
 from utils.limiteBackup import limitar_relatorios
 from utils.log import log
 from core.relatorioJSON import StorageManager
-from datetime import datetime
+from datetime import datetime, time
 from core.jira_manager import JiraManager
  
 class Main:
@@ -53,7 +53,10 @@ class Main:
         self.storage.save(data)
 
         hora_atual = datetime.now().strftime("%H:%M")
-        if hora_atual >= "19:00" and hora_atual <= "19:05":
+        inicio = time(18, 50)
+        fim = time(19, 0)
+
+        if inicio <= hora_atual <= fim:
             data = self.storage.load()
             ReportManager().gerar_relatorio(
                 data["relatorios"],
