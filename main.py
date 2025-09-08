@@ -52,7 +52,7 @@ class Main:
 
         self.storage.save(data)
 
-        hora_atual = datetime.now().strftime("%H:%M")
+        hora_atual = datetime.now().time()
         inicio = time(18, 50)
         fim = time(19, 0)
 
