@@ -75,11 +75,9 @@ class JiraManager:
             if issue.get("fields", {}).get("summary", "") == summary:
                 desc = issue.get("fields", {}).get("description", None)
 
-                # Se já for string simples, retorna direto
                 if isinstance(desc, str):
                     return desc
 
-                # Se for no formato ADF (dict), extrai texto
                 if isinstance(desc, dict):
                     textos = []
 
@@ -95,4 +93,18 @@ class JiraManager:
                     return " ".join(textos).strip() if textos else None
 
         return None
+    
+    def debug_issue_fields(self, issue_key: str):
+        """
+        Busca todos os campos crus de uma issue do Jira (para debug).
+        Assim você pode ver por que 'key' e 'description' podem estar vindo nulos.
+        """
+        url = f"{self.base_url}/issue/{issue_key}"
+        r = requests.get(url, headers=self.headers, auth=self.auth)
+        if r.status_code != 200:
+            log(f"[ERROR] Erro ao buscar issue {issue_key}: {r.status_code} - {r.text}")
+            return None
 
+        data = r.json()
+        log(f"[DEBUG] Dados crus da issue {issue_key}: {data}")
+        return data
