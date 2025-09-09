@@ -28,7 +28,7 @@ class StorageManager:
 
     def add_data(self, relatorios, commits, tasks):
         data = self.load()
-        hoje = datetime.today().strftime("%Y-%m-%d")
+        hoje = datetime.today().strftime("%d-%m-%Y")
         if data["data"] != hoje:
             self._init_storage()
             data = self.load()
