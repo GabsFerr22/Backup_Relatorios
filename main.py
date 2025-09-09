@@ -8,6 +8,9 @@ from utils.log import log
 from core.relatorioJSON import StorageManager
 from datetime import datetime, time
 from core.jira_manager import JiraManager
+from WhatsAppUtils.WhatsApp_manager import enviar_imagens_whatsapp
+from WhatsAppUtils.PDF_Convert import pdf_para_imagens
+import os
  
 class Main:
     def __init__(self):
@@ -53,6 +56,7 @@ class Main:
         self.storage.save(data)
 
 
+        # --- ENVIO DE RELATÓRIO PARA WHATSAPP ---
         if datetime.now().hour >= 18:
             data = self.storage.load()
             ReportManager().gerar_relatorio(
@@ -60,7 +64,24 @@ class Main:
                 data["commits"],
                 data["tasks"]
             )
+
+            # Define o caminho do PDF do dia
+            data_hoje = datetime.today().strftime("%d-%m-%Y")
+            nome_pdf = f"Relatorio_Diario {data_hoje}.pdf"
+            caminho_pdf = os.path.join(
+                r"C:\Users\adm.joao.mendes\Documents\LOG DIARIO",
+                nome_pdf
+            )
+
+            # Converte PDF em imagens
+            imagens = pdf_para_imagens(caminho_pdf)
+
+            # ID do grupo WhatsApp
+            GRUPO_ID = "@g.us_3EB02010A86B6E87DA2C"
+            enviar_imagens_whatsapp(GRUPO_ID, imagens)
+
             self.storage.reset()
+
 
 
 if __name__ == "__main__":

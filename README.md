@@ -9,7 +9,7 @@ Automação para baixar relatórios do Power BI On-Prem, organizar por categoria
 4. `python main.py`
 
 ## Jenkins
-Use o `Jenkinsfile` ou configure "Build periodically" (`H/15 7-19 * * *`).
+Use o `Jenkinsfile` ou configure "Build periodically" (`H/15 7-18 * * *`).
 
 ## Estrutura
 - `core/` classes OOP (Browser, RelatorioManager, GitHubManager, JiraManager).

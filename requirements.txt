@@ -5,3 +5,4 @@ requests
 logging
 reportlab
 psutil
+pdf2image
