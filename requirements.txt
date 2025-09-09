@@ -6,3 +6,4 @@ logging
 reportlab
 psutil
 pdf2image
+pywhatkit
