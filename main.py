@@ -71,6 +71,8 @@ if __name__ == "__main__":
         log(f"[ERRO] {e}")
     finally:
         try:
+            log("[QUIT] Fechando navegador...")
             main.browser.quit()
+            log("[QUIT] Fechado com Sucesso!!")
         except:
             pass
