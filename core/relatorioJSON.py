@@ -10,7 +10,7 @@ class StorageManager:
 
     def _init_storage(self):
         data = {
-            "data": datetime.today().strftime("%Y-%m-%d"),
+            "data": datetime.today().strftime("%d-%m-%Y"),
             "relatorios": [],
             "commits": [],
             "tasks": []

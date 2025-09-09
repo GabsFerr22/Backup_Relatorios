@@ -52,11 +52,8 @@ class Main:
 
         self.storage.save(data)
 
-        hora_atual = datetime.now().time()
-        inicio = time(18, 50)
-        fim = time(19, 0)
 
-        if inicio <= hora_atual <= fim:
+        if datetime.now().hour >= 18:
             data = self.storage.load()
             ReportManager().gerar_relatorio(
                 data["relatorios"],
