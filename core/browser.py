@@ -60,10 +60,6 @@ class Browser:
     def quit(self):
         if self.driver:
             try:
-                self.driver.close()
-            except Exception:
-                pass
-            try:
                 self.driver.quit()
             except Exception:
                 pass
@@ -80,3 +76,7 @@ class Browser:
                     pass
             finally:
                 self.chrome_process = None
+                
+        if self.port:
+            kill_chrome_port(self.port)
+            self.port = None
