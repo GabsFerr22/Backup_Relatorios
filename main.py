@@ -60,7 +60,7 @@ class Main:
         self.storage.save(data)
 
         # --- ENVIO DE RELATÓRIO PARA WHATSAPP ---
-        if datetime.now().hour >= 18:
+        if datetime.now().hour >= 9:
             data = self.storage.load()
 
 
