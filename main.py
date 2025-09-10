@@ -61,8 +61,7 @@ class Main:
         self.storage.save(data)
 
         # --- CRIÇÃO DE RELATORIO ---
-        agora = datetime.now()
-        if agora.hour > 18 or (agora.hour == 18 and agora.minute >= 30):
+        if datetime.now().hour >= 9:
             data = self.storage.load()
 
 
