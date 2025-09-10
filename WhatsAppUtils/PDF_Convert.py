@@ -6,7 +6,7 @@ from PyPDF2 import PdfReader
 
 def pdf_para_imagens(caminho_pdf, pasta_output="prints_relatorio"):
     os.makedirs(pasta_output, exist_ok=True)
-    imagens = convert_from_path(caminho_pdf, dpi=200, poppler_path = r"C:\poppler-25.07.0\Library\bin" )  
+    imagens = convert_from_path(caminho_pdf, dpi=200, poppler_path=r"C:\poppler-25.07.0\Library\bin" )  
     caminhos = []
     for i, img in enumerate(imagens):
         caminho_img = os.path.join(pasta_output, f"pagina_{i+1}.png")
