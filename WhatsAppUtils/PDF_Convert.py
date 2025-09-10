@@ -4,7 +4,7 @@ import fitz
 from PyPDF2 import PdfReader
 
 
-def pdf_para_imagens_manual(caminho_pdf, pasta_output="prints_relatorio"):
+def pdf_para_imagens_manual(caminho_pdf, pasta_output=r"C:\Users\adm.joao.mendes\Documents\prints_relatorio"):
     os.makedirs(pasta_output, exist_ok=True)
     reader = PdfReader(caminho_pdf)
     num_paginas = len(reader.pages)
