@@ -7,7 +7,7 @@ from utils.limiteBackup import limitar_relatorios
 from utils.log import log
 from core.relatorioJSON import StorageManager
 from core.jira_manager import JiraManager
-from WhatsAppUtils.PDF_Convert import pdf_para_imagens, verificar_pdf
+from WhatsAppUtils.PDF_Convert import pdf_para_imagens_manual, verificar_pdf
 from WhatsAppUtils.WhatsApp_manager import enviar_imagens_whatsapp
 
 from datetime import datetime
@@ -80,7 +80,7 @@ class Main:
 
 
             verificar_pdf(caminho_pdf)
-            imagens = pdf_para_imagens(caminho_pdf)
+            imagens = pdf_para_imagens_manual(caminho_pdf)
 
             GRUPO_ID = "@g.us_3EB02010A86B6E87DA2C"
             enviar_imagens_whatsapp(GRUPO_ID, imagens)
