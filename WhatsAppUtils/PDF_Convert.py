@@ -1,6 +1,8 @@
 import os
 from datetime import datetime
 from pdf2image import convert_from_path
+from PyPDF2 import PdfReader
+
 
 def pdf_para_imagens(caminho_pdf, pasta_output="prints_relatorio"):
     os.makedirs(pasta_output, exist_ok=True)
@@ -27,3 +29,33 @@ if __name__ == "__main__":
     print("Imagens geradas:")
     for img in imagens:
         print(img)
+
+
+def verificar_pdf(caminho_pdf):
+    if not os.path.exists(caminho_pdf):
+        raise FileNotFoundError(f"Arquivo não encontrado: {caminho_pdf}")
+    if os.path.getsize(caminho_pdf) == 0:
+        raise ValueError(f"O PDF está vazio: {caminho_pdf}")
+
+    try:
+        reader = PdfReader(caminho_pdf)
+        num_paginas = len(reader.pages)
+        print(f"✅ PDF válido, páginas detectadas: {num_paginas}")
+    except Exception as e:
+        raise ValueError(f"Erro ao abrir PDF: {e}")
+
+
+
+
+def verificar_pdf(caminho_pdf):
+    if not os.path.exists(caminho_pdf):
+        raise FileNotFoundError(f"Arquivo não encontrado: {caminho_pdf}")
+    if os.path.getsize(caminho_pdf) == 0:
+        raise ValueError(f"O PDF está vazio: {caminho_pdf}")
+
+    try:
+        reader = PdfReader(caminho_pdf)
+        num_paginas = len(reader.pages)
+        print(f"✅ PDF válido, páginas detectadas: {num_paginas}")
+    except Exception as e:
+        raise ValueError(f"Erro ao abrir PDF: {e}")
