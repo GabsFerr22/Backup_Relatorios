@@ -5,6 +5,6 @@ requests
 logging
 reportlab
 psutil
-pdf2image
 pywhatkit
 PyPDF2
+PyMuPDF
