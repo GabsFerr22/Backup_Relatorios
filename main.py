@@ -83,7 +83,7 @@ class Main:
             imagens = pdf_para_imagens_manual(caminho_pdf)
 
             GRUPO_ID = "@g.us_3EB02010A86B6E87DA2C"
-            enviar_imagens_whatsapp(GRUPO_ID, imagens)
+            enviar_imagens_whatsapp( self.browser.driver, GRUPO_ID, imagens)
 
 
             self.storage.reset()
