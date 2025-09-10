@@ -60,8 +60,9 @@ class Main:
 
         self.storage.save(data)
 
-        # --- ENVIO DE RELATÓRIO PARA WHATSAPP ---
-        if datetime.now().hour >= 9:
+        # --- CRIÇÃO DE RELATORIO ---
+        agora = datetime.now()
+        if agora.hour > 18 or (agora.hour == 18 and agora.minute >= 30):
             data = self.storage.load()
 
 
@@ -77,13 +78,6 @@ class Main:
                 r"C:\Users\adm.joao.mendes\Documents\LOG DIARIO",
                 nome_pdf
             )
-
-
-            verificar_pdf(caminho_pdf)
-            imagens = pdf_para_imagens_manual(caminho_pdf)
-
-            enviar_imagens_whatsapp(self.browser.driver, "RELATÓRIO DIÁRIO BACKUP  📊", imagens)
-
 
             self.storage.reset()
 
