@@ -82,7 +82,7 @@ class Main:
             verificar_pdf(caminho_pdf)
             imagens = pdf_para_imagens_manual(caminho_pdf)
 
-            enviar_imagens_whatsapp(self.browser.driver, "RELATÓRIO DIÁRIO BACKUP", imagens)
+            enviar_imagens_whatsapp(self.browser.driver, "RELATÓRIO DIÁRIO BACKUP  📊", imagens)
 
 
             self.storage.reset()
