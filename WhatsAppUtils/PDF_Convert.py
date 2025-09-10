@@ -2,16 +2,25 @@ import os
 from datetime import datetime
 from pdf2image import convert_from_path
 from PyPDF2 import PdfReader
+import subprocess
 
-
-def pdf_para_imagens(caminho_pdf, pasta_output="prints_relatorio"):
+def pdf_para_imagens_manual(caminho_pdf, pasta_output="prints_relatorio"):
     os.makedirs(pasta_output, exist_ok=True)
-    imagens = convert_from_path(caminho_pdf, dpi=200, poppler_path=r"C:\poppler-25.07.0\Library\bin" )  
+    reader = PdfReader(caminho_pdf)
+    num_paginas = len(reader.pages)
     caminhos = []
-    for i, img in enumerate(imagens):
-        caminho_img = os.path.join(pasta_output, f"pagina_{i+1}.png")
-        img.save(caminho_img, "PNG")
-        caminhos.append(caminho_img)
+    
+    for i in range(num_paginas):
+        out_path = os.path.join(pasta_output, f"pagina_{i+1}.png")
+        subprocess.run([
+            r"C:\poppler-25.07.0\Library\bin\pdftoppm.exe",
+            "-f", str(i+1),
+            "-l", str(i+1),
+            "-png",
+            caminho_pdf,
+            os.path.splitext(out_path)[0]
+        ], check=True)
+        caminhos.append(out_path)
     return caminhos
 
 

@@ -15,3 +15,4 @@ Use o `Jenkinsfile` ou configure "Build periodically" (`H/15 7-18 * * *`).
 - `core/` classes OOP (Browser, RelatorioManager, GitHubManager, JiraManager).
 - `utils/` utilidades (arquivos e logs).
 - `config/` settings centralizados.
+- `WhatsAppUtils/` converte e envia para o WhatsApp a imagem
