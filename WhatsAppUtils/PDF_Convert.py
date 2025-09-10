@@ -33,7 +33,7 @@ if __name__ == "__main__":
         nome_pdf
     )
 
-    imagens = pdf_para_imagens(caminho_pdf)
+    imagens = pdf_para_imagens_manual(caminho_pdf)
 
     print("Imagens geradas:")
     for img in imagens:
