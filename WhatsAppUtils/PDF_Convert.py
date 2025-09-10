@@ -40,7 +40,7 @@ def verificar_pdf(caminho_pdf):
     try:
         reader = PdfReader(caminho_pdf)
         num_paginas = len(reader.pages)
-        print(f"✅ PDF válido, páginas detectadas: {num_paginas}")
+        print(f"[OK] PDF válido, páginas detectadas: {num_paginas}")
     except Exception as e:
         raise ValueError(f"Erro ao abrir PDF: {e}")
 
@@ -56,6 +56,6 @@ def verificar_pdf(caminho_pdf):
     try:
         reader = PdfReader(caminho_pdf)
         num_paginas = len(reader.pages)
-        print(f"✅ PDF válido, páginas detectadas: {num_paginas}")
+        print(f"[OK] PDF válido, páginas detectadas: {num_paginas}")
     except Exception as e:
         raise ValueError(f"Erro ao abrir PDF: {e}")
