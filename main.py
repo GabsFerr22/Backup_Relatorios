@@ -7,8 +7,6 @@ from utils.limiteBackup import limitar_relatorios
 from utils.log import log
 from core.relatorioJSON import StorageManager
 from core.jira_manager import JiraManager
-from WhatsAppUtils.PDF_Convert import pdf_para_imagens_manual, verificar_pdf
-from WhatsAppUtils.WhatsApp_manager import enviar_imagens_whatsapp
 
 from datetime import datetime
 import os
