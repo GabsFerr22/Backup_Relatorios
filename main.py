@@ -60,7 +60,7 @@ class Main:
 
         # --- CRIÇÃO DE RELATORIO ---
         agora = datetime.now()
-        if agora.hour == 18 and agora.minute >= 45:
+        if agora >= 18:
             data = self.storage.load()
 
 
