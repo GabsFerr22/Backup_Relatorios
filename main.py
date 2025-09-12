@@ -7,7 +7,6 @@ from utils.limiteBackup import limitar_relatorios
 from utils.log import log
 from core.relatorioJSON import StorageManager
 from core.jira_manager import JiraManager
-
 from datetime import datetime
 import os
 import time
