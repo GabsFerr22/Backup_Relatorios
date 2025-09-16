@@ -68,7 +68,7 @@ class Browser:
         if self.chrome_process:
             try:
                 self.chrome_process.terminate()
-                self.chrome_process.wait(timeout=5)
+                self.chrome_process.wait(timeout=3)
             except Exception:
                 try:
                     self.chrome_process.kill()
