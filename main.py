@@ -59,7 +59,7 @@ class Main:
         # --- CRIAÇÃO DE RELATÓRIO ---  
         agora = datetime.now()
         # Gera o relatório apenas entre 17:30 e 17:59
-        if agora.hour == 17 and agora.minute >= 30:
+        if agora.hour == 17 and 30 <= agora.minute <= 59:
             data = self.storage.load()
 
             ReportManager().gerar_relatorio(
