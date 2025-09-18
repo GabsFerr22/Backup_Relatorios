@@ -111,7 +111,7 @@ class RelatorioManager:
             
             ##Alteração nova, apagar se necessario
             self.tasks_criadas.append([titulo])
-            limitar_relatorios(pasta_destino, limite=8)
+            # limitar_relatorios(pasta_destino, limite=8)
 
         except Exception as e:
             log(f"[ERRO] Erro ao renomear/mover {nome_relatorio}: {e}")
