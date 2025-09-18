@@ -25,7 +25,6 @@ class Main:
         for nome_pasta, dados in RELATORIOS.items():
             log(f"\nIniciando backup de {nome_pasta}...")
             rel_manager.baixar_relatorios_em_massa(dados["link"], dados["pasta"])
-            limitar_relatorios(dados["pasta"], limite=8)
         log("\n[OK] Backup Realizado com Sucesso!")
 
         # --- ATUALIZAÇÃO GITHUB ---

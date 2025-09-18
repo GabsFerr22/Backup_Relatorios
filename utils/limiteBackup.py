@@ -3,61 +3,40 @@ from utils.log import log
 from typing import Iterable, Optional
 
 def limitar_relatorios(pasta: str, limite: int = 8, extensoes: Optional[Iterable[str]] = None, dry_run: bool = False):
-    """
-    Mantém no máximo 'limite' arquivos em 'pasta'.
-    Remove os mais antigos caso ultrapasse.
-    - extensoes: lista opcional de extensões (ex: ['.pdf']) para considerar apenas esses arquivos.
-    - dry_run: se True, apenas loga quais arquivos seriam removidos sem apagar nada.
-    """
-
     if not os.path.isdir(pasta):
         log(f"[WARN] Pasta não encontrada: {pasta}")
         return
 
-    # Normaliza as extensões (se fornecidas)
-    exts = None
-    if extensoes:
-        exts = {e.lower() if e.startswith('.') else f".{e.lower()}" for e in extensoes}
-
-    arquivos = []
-    with os.scandir(pasta) as it:
-        for entry in it:
-            if not entry.is_file():
+    # Itera sobre subpastas
+    for root, dirs, files in os.walk(pasta):
+        arquivos = []
+        for f in files:
+            if extensoes and os.path.splitext(f)[1].lower() not in {e.lower() if e.startswith('.') else f".{e.lower()}" for e in extensoes}:
                 continue
-            if exts and os.path.splitext(entry.name)[1].lower() not in exts:
-                continue
+            caminho = os.path.join(root, f)
             try:
-                # No Windows, stat().st_ctime normalmente representa tempo de criação.
-                # Em Unix, st_ctime é metadata-change; para cross-platform mais previsível usamos:
-                timestamp = entry.stat().st_ctime if os.name == "nt" else entry.stat().st_mtime
+                ts = os.stat(caminho).st_ctime if os.name == "nt" else os.stat(caminho).st_mtime
+                arquivos.append((caminho, ts))
             except Exception as e:
-                log(f"[WARN] Não consegui ler metadata de {entry.path}: {e}")
-                continue
-            arquivos.append((entry.path, timestamp))
+                log(f"[WARN] Não consegui ler metadata de {caminho}: {e}")
 
-    total = len(arquivos)
-    log(f"[INFO] {total} arquivo(s) encontrado(s) em '{pasta}' (limite={limite}).")
+        total = len(arquivos)
+        if total <= limite:
+            continue  # essa pasta está ok
 
-    if total <= limite:
-        log("[OK] Não há arquivos para remover.")
-        return
+        arquivos.sort(key=lambda x: x[1])  # mais antigo primeiro
+        remover = arquivos[:-limite]
 
-    # Ordena do mais antigo para o mais novo
-    arquivos.sort(key=lambda x: x[1])
-
-    # Arquivos a remover (todos exceto os últimos `limite`)
-    remover = arquivos[:-limite]
-    log(f"[INFO] Serão removidos {len(remover)} arquivo(s).")
-
-    for path, ts in remover:
-        if dry_run:
-            log(f"[DRY-RUN] Removeria: {path}")
-            continue
-        try:
-            os.remove(path)
-            log(f"[OK] Arquivo removido: {path}")
-        except Exception as e:
-            log(f"[ERRO] Não consegui remover {path}: {e}")
+        log(f"[INFO] {root}: {total} arquivos, removendo {len(remover)} (limite={limite})")
+        for path, _ in remover:
+            try:
+                if dry_run:
+                    log(f"[DRY-RUN] Removeria: {path}")
+                else:
+                    os.remove(path)
+                    log(f"[OK] Removido: {path}")
+            except Exception as e:
+                log(f"[ERRO] Não consegui remover {path}: {e}")
 
 # exemplo rápido de uso para testar:
 if __name__ == "__main__":
