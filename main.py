@@ -57,11 +57,11 @@ class Main:
 
         self.storage.save(data)
 
-        # --- CRIÇÃO DE RELATORIO ---
+        # --- CRIAÇÃO DE RELATÓRIO ---  
         agora = datetime.now()
-        if agora.hour >= 17:
+        # Gera o relatório apenas entre 17:30 e 17:59
+        if agora.hour == 17 and agora.minute >= 30:
             data = self.storage.load()
-
 
             ReportManager().gerar_relatorio(
                 data["relatorios"],
@@ -76,6 +76,7 @@ class Main:
                 nome_pdf
             )
 
+            log(f"[OK] Relatório diário consolidado em: {caminho_pdf}")
             self.storage.reset()
 
 if __name__ == "__main__":
