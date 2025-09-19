@@ -3,7 +3,6 @@ from core.browser import Browser
 from core.relatorio import RelatorioManager
 from core.github_manager import GitHubManager
 from core.relatorio_PDF import ReportManager
-from utils.limiteBackup import limitar_relatorios
 from utils.log import log
 from core.relatorioJSON import StorageManager
 from core.jira_manager import JiraManager

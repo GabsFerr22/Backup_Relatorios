@@ -8,7 +8,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from utils.limiteBackup import limitar_relatorios
+# from utils.limiteBackup import limitar_relatorios
 from config.settings import PASTA_DOWNLOADS
 from utils.file_utils import limpar_nome, esperar_download_concluir, garantir_pasta
 from utils.log import log
