@@ -42,6 +42,9 @@ class GitHubManager:
 
         diff = self._run(["git", "diff", "--cached", "--quiet"], cwd=self.repo_path, check=False)
         if diff.returncode != 0:
+            self._run(["git", "config", "user.name", "BI-PARVI"], cwd=self.repo_path)
+            self._run(["git", "config", "user.email", "bi@parvi.com.br"], cwd=self.repo_path)
+
             self._run(["git", "commit", "-m", self.commit_message], cwd=self.repo_path)
             log("[OK] Commit realizado!")
             
