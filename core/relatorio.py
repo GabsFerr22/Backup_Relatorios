@@ -8,7 +8,6 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-# from utils.limiteBackup import limitar_relatorios
 from config.settings import PASTA_DOWNLOADS
 from utils.file_utils import limpar_nome, esperar_download_concluir, garantir_pasta
 from utils.log import log
@@ -111,7 +110,6 @@ class RelatorioManager:
             
             ##Alteração nova, apagar se necessario
             self.tasks_criadas.append([titulo])
-            # limitar_relatorios(pasta_destino, limite=8)
 
         except Exception as e:
             log(f"[ERRO] Erro ao renomear/mover {nome_relatorio}: {e}")
