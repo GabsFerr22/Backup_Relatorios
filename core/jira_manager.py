@@ -13,10 +13,12 @@ class JiraManager:
         self.headers = {"Accept": "application/json", "Content-Type": "application/json"}
 
     def _search_issues(self, jql: str, max_results: int = 50):
-        url = f"{self.base_url}/search?jql={quote(jql)}&maxResults={max_results}"
-        r = requests.get(url, headers=self.headers, auth=self.auth)
+        url = f"{self.base_url}/search"
+        params = {"jql": jql, "maxResults": max_results}
+        r = requests.get(url, headers=self.headers, auth=self.auth, params=params)
         r.raise_for_status()
         return r.json().get("issues", [])
+
 
     def issue_exists_with_exact_summary(self, summary: str) -> bool:
         jql = f'project = "{JIRA_PROJECT_KEY}" AND summary ~ "\\"{summary}\\""'

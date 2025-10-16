@@ -9,7 +9,7 @@ from core.jira_manager import JiraManager
 from datetime import datetime
 import os
 import time
-
+  
 class Main:
     def __init__(self):
         self.browser = Browser()
