@@ -2,7 +2,7 @@
 
 Automação para baixar relatórios do Power BI On-Prem, organizar por categorias e subpastas de cada relatório, versionar em GitHub e abrir tarefas no Jira quando houver alterações.
 
-## Como rodar
+## Como rodar?
 1. Python 3.10+
 2. `pip install -r requirements.txt`
 3. Configure `config/settings.py` (caminhos, repo, Jira).
